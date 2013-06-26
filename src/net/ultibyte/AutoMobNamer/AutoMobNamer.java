@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Random;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
@@ -60,39 +61,11 @@ public class AutoMobNamer extends JavaPlugin implements Listener {
 		console.sendMessage(ChatColor.DARK_RED + "Auto" + ChatColor.BLUE + "Mob" + ChatColor.YELLOW + "Namer " + ChatColor.RESET + "has been " + ChatColor.RED + ChatColor.BOLD + "disabled" + ChatColor.RESET + ".");
 		saveConfig();
 	}
-	List<String> ListOfColorCodes = new ArrayList<String>();
-
-	public void PutColorCodesIntoList() {
-		if (ListOfColorCodes.isEmpty()) {
-			ListOfColorCodes.add("§0");
-			ListOfColorCodes.add("§1");
-			ListOfColorCodes.add("§2");
-			ListOfColorCodes.add("§3");
-			ListOfColorCodes.add("§4");
-			ListOfColorCodes.add("§5");
-			ListOfColorCodes.add("§6");
-			ListOfColorCodes.add("§7");
-			ListOfColorCodes.add("§8");
-			ListOfColorCodes.add("§9");
-			ListOfColorCodes.add("§a");
-			ListOfColorCodes.add("§b");
-			ListOfColorCodes.add("§c");
-			ListOfColorCodes.add("§d");
-			ListOfColorCodes.add("§e");
-			ListOfColorCodes.add("§f");
-			ListOfColorCodes.add("§8");
-		}
-		if (VariableStuff.NoColor) {
-			ListOfColorCodes.clear();
-			ListOfColorCodes.add("§f");
-
-		}
-
-	}
+	List<String> colors = new ArrayList<String>();
 
 	public String RandomColorMethod() {
-		int ColorSelection = randInt(0, ListOfColorCodes.size());
-		String RandomlySelectedColor = ListOfColorCodes.get(ColorSelection);
+		int ColorSelection = randInt(0, colors.size());
+		String RandomlySelectedColor = colors.get(ColorSelection);
 		return RandomlySelectedColor;
 	}
 
@@ -126,7 +99,16 @@ public class AutoMobNamer extends JavaPlugin implements Listener {
 			getLogger().log(Level.SEVERE, "Error loading names", ex);
 		}
 
-		saveConfig();
+		
+		colors.clear();
+		if (VariableStuff.NoColor) {
+			colors.add("§f");
+		} else {
+			colors.addAll(Arrays.asList(
+					"§0", "§1", "§2", "§3", "§4", 
+					"§5", "§6", "§7", "§8", "§9", 
+					"§a", "§b", "§c", "§d", "§e", "§f"));
+		}
 	}
 	
 	public void saveNames() {
@@ -161,7 +143,6 @@ public class AutoMobNamer extends JavaPlugin implements Listener {
 
 	@EventHandler
 	public void onCreatureSpawn(CreatureSpawnEvent event) {
-		PutColorCodesIntoList();
 		setRandomName(event.getEntity());
 	}
 

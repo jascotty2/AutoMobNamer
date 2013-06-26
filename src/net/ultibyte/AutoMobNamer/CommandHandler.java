@@ -11,12 +11,10 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
 
 public class CommandHandler implements CommandExecutor {
 
-	private AutoMobNamer plugin; // pointer to the main class.
-	Player p;
+	protected final AutoMobNamer plugin; // pointer to the main class.
 
 	public CommandHandler(AutoMobNamer plugin) {
 		this.plugin = plugin;

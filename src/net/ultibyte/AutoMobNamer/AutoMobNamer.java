@@ -81,10 +81,8 @@ public class AutoMobNamer extends JavaPlugin implements Listener {
 
 			for (int i = 0; i < nameLines.size(); ++i) {
 				final String line = nameLines.get(i).trim();
-				System.out.println(i + ": " + line);
 				if (!line.startsWith("#") && line.endsWith(":")) {
 					EntityType type = EntityType.valueOf(line.substring(0, line.length() - 1));
-					System.out.println(line + " " + type);
 					if(type != null) {
 						if(!entityNames.containsKey(type)){
 							entityNames.put(type, new ArrayList<String>());

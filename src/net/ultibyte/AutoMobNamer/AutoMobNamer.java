@@ -13,7 +13,9 @@ import me.jascotty2.lib.io.FileIO;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Server;
+import org.bukkit.World;
 import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
@@ -52,6 +54,15 @@ public class AutoMobNamer extends JavaPlugin implements Listener {
 		ConsoleCommandSender console = server.getConsoleSender();
 		console.sendMessage(ChatColor.DARK_RED + "Auto" + ChatColor.BLUE + "Mob" + ChatColor.YELLOW + "Namer " + ChatColor.RESET + "has been " + ChatColor.GREEN + ChatColor.BOLD + "enabled" + ChatColor.RESET + "!");
 		VariableStuff.NoColor = false;
+		
+		// scan for any existing entities without names
+		for(final World w : getServer().getWorlds()) {
+			for(final LivingEntity e : w.getEntitiesByClass(LivingEntity.class)) {
+				if(e.getCustomName() == null || e.getCustomName().isEmpty()) {
+					setRandomName(e);
+				}
+			}
+		}
 	}
 
 	@Override
@@ -147,6 +158,7 @@ public class AutoMobNamer extends JavaPlugin implements Listener {
 	public void setRandomName(LivingEntity ent) {
 		List<String> nameList = entityNames.get(ent.getType());
 		if(nameList != null) {
+			
 			ent.setCustomName(RandomColorMethod() + nameList.get(randInt(0, nameList.size())));
 			if (allwaysshowtags) {
 				ent.setCustomNameVisible(true);

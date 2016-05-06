@@ -45,8 +45,10 @@ import java.net.Proxy;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
+import java.util.Collection;
 import java.util.UUID;
 import java.util.logging.Level;
+import org.bukkit.entity.Player;
 
 public class MetricsLite {
 
@@ -281,9 +283,14 @@ public class MetricsLite {
         String pluginName = description.getName();
         boolean onlineMode = Bukkit.getServer().getOnlineMode(); // TRUE if online mode is enabled
         String pluginVersion = description.getVersion();
-        String serverVersion = Bukkit.getVersion();
-        int playersOnline = Bukkit.getServer().getOnlinePlayers().length;
-
+        String serverVersion = Bukkit.getVersion();  
+		int playersOnline = 0;//Bukkit.getServer().getOnlinePlayers().length;
+		Object pl = Bukkit.getServer().getOnlinePlayers();
+		if(pl instanceof Collection) {
+			playersOnline = ((Collection)pl).size();
+		} else if (pl instanceof Player[]) {
+			playersOnline = ((Player[])pl).length;
+		}
         // END server software specific section -- all code below does not use any code outside of this class / Java
 
         // Construct the post data
